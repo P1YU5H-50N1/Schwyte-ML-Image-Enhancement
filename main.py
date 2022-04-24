@@ -4,13 +4,6 @@ import time
 from .API import fetch_data, post_imgs
 from .ISR  import super_resolve
 
-BEARER_TOKEN=""
-API_KEY=""
-API_KEY_SECRET=""
-ACCESS_TOKEN=""
-ACCESS_TOKEN_SECRET=""
-
-
 while(True):
     time.sleep(60)
     hi_res = {}
