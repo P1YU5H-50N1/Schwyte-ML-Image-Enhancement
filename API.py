@@ -10,7 +10,9 @@ ACCESS_TOKEN=os.environ.get('ACCESS_TOKEN') or ""
 ACCESS_TOKEN_SECRET=os.environ.get('ACCESS_TOKEN_SECRET') or "" 
 
 def fetch_data():
-    ''' Returns an array with keys as usernames and values as list of image_path saved in a folder tmp_img/low_res'''
+    ''' Returns an array of dicts with tweets, username, author_id, tweet_id, media_keys, low_res_image_path saved in a folder tmp_img/low_res
+    [{'tweet': '', 'username': '', 'author_id': int, 'tweet_id': number, 'media_keys': [''], 'low_res_img': ['']}]
+    '''
     tweets = []
     
     try:
@@ -25,9 +27,8 @@ def fetch_data():
             print(response)
             try:
                 media = {m["media_key"]: m for m in response.includes['media']}
-                print(media)
             except:
-                media = False
+                media = {"key":None}
 
             client_user_ids = [tweet.author_id for tweet in response.data]
             # # print(client_user_ids)
@@ -37,7 +38,7 @@ def fetch_data():
             # # print(client_user_names)
             
             for tweet in response.data:
-                print('tweet:',tweet.text,"\n author_id:",tweet.author_id,"\n tweet_id: ",tweet.id,"\n")
+                # print('tweet:',tweet.text,"\n author_id:",tweet.author_id,"\n tweet_id: ",tweet.id,"\n")
                 current_tweet = {
                     "tweet":tweet.text,
                     "username": client_user_names[tweet.author_id],
@@ -67,7 +68,6 @@ def fetch_data():
     except Exception as e:
         print(f"Error occured: {e}")
         quit()
-    print(tweets)
     return tweets
 
 def post_imgs(img_paths, username):
