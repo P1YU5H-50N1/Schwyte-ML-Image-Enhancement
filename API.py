@@ -73,4 +73,32 @@ def fetch_data():
 def post_imgs(img_paths, username):
     '''Posts a list of images with a msg mentioning twitter username'''
     
-fetch_data()
+def create_new():
+    try:
+        client = tweepy.Client(bearer_token=BEARER_TOKEN, consumer_key=API_KEY, 
+                            consumer_secret=API_KEY_SECRET, access_token=ACCESS_TOKEN, 
+                            access_token_secret=ACCESS_TOKEN_SECRET)
+        res = client.create_tweet(text=" #2 I'll be up in some time! @ViewsOfPiyush",media_ids=[upload_media()])
+        print(res) 
+        '''Response(data={'id': '1518491368535982083', 'text': "I'll be up in some time! @ViewsOfPiyush"}, includes={}, errors=[], meta={})'''
+        
+    except Unauthorized:
+        print("Unauthorized! Check API keys")
+        quit()
+    except Exception as e:
+        print(f"Error occured: {e}")
+        quit()
+        
+def upload_media(img=""):
+    auth = tweepy.OAuthHandler(API_KEY, API_KEY_SECRET)
+    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+    api = tweepy.API(auth)
+    m1 = media = api.media_upload('tmp/low_res/FL91SNMacAIde-7.jpg')
+    print(m1,m1.media_id)
+    return m1.media_id
+    '''
+    Media(_api=<tweepy.api.API object at 0x7f3b0d18b250>, media_id=1518492842087239680, media_id_string='1518492842087239680', size=89095, expires_after_secs=86400, image={'image_type': 'image/jpeg', 'w': 1200, 'h': 625}) 
+    1518492842087239680
+    '''
+# create_new()
+# upload_media()
