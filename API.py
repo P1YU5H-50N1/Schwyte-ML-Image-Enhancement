@@ -55,7 +55,7 @@ def fetch_data():
                         if media[key].type == "photo":
                             file_name = media[key].url.replace("https://pbs.twimg.com/media/","")
                             file_loc = "tmp/low_res/" + file_name
-                            current_tweet["low_res_img"].append(file_name)
+                            current_tweet["low_res_imgs"].append(file_name)
                             if not os.path.exists(file_loc):
                                 wget.download(media[key].url,file_loc)
                             tweets.append(current_tweet)

@@ -2,7 +2,7 @@ import os
 import time
 
 from API import fetch_data, post_result
-from ISR  import super_resolve
+from ISR_resolve  import super_resolve
 
 while(True):
     data = fetch_data() 
