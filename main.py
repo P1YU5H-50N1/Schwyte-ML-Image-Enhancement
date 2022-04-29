@@ -7,7 +7,11 @@ from ISR_resolve  import super_resolve
 while(True):
     data = fetch_data() 
     image_paths = [tweet['low_res_imgs'] for tweet in data]
-    image_paths = super_resolve(image_paths)
+    im_paths = []
+    for path_list in image_paths:
+        for path in path_list:
+            im_paths.append(path)
+    image_paths = super_resolve(im_paths)
     
     for tweet in data:
         post_result(tweet)
