@@ -17,7 +17,7 @@ def super_resolve(img_paths,rdn):
         lr_img = np.array(img)
         sr_img = rdn.predict(lr_img)
         img = Image.fromarray(sr_img)
-        Image.save(save_path)
+        img.save(save_path)
     
     return img_paths
         
