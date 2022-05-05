@@ -1,3 +1,2 @@
 tweepy==4.8.0
 wget
-isr
