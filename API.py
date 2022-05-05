@@ -65,7 +65,7 @@ def fetch_data(client):
 def post_result(tweet,client,api):
     #[{'tweet': '', 'username': '', 'author_id': int, 'tweet_id': number, 'media_keys': [''], 'low_res_img': ['']}]
     try:
-        tweet_text = f"Hey @{tweet['username']}Here's your super resolved image!"
+        tweet_text = f"Hey @{tweet['username']} , Here's your super resolved image!"
         media_IDs = upload_images(tweet['low_res_imgs'],api)
         res = client.create_tweet(text=tweet_text,media_ids=[media_IDs])
     except Unauthorized:
