@@ -33,7 +33,7 @@ while(True):
     image_paths = super_resolve(im_paths,rdn)
     
     for tweet in data:
-        post_result(tweet,api)
+        post_result(tweet,client,api)
     
     time.sleep(60)
     
