@@ -4,11 +4,10 @@ from PIL import Image
 from ISR.models import RDN
 
 
-def super_resolve(img_paths):
+def super_resolve(img_paths,rdn):
     '''converts low res to hi res images
     args: image paths in tmp_img
     returns: status if converted correctly and list of paths of super resolved images'''
-    rdn = RDN(weights='noise-cancel')
     low_res_dir = "tmp/low_res/"
     hi_res_dir = "tmp/hi_res/"
     for path in img_paths:

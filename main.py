@@ -1,9 +1,10 @@
 import os
 import time
-
+from ISR.models import RDN
 from API import fetch_data, post_result
 from ISR_resolve  import super_resolve
 
+rdn = RDN(weights='noise-cancel')
 while(True):
     data = fetch_data() 
     image_paths = [tweet['low_res_imgs'] for tweet in data]
@@ -11,7 +12,7 @@ while(True):
     for path_list in image_paths:
         for path in path_list:
             im_paths.append(path)
-    image_paths = super_resolve(im_paths)
+    image_paths = super_resolve(im_paths,rdn)
     
     for tweet in data:
         post_result(tweet)
