@@ -3,22 +3,13 @@ from tweepy.errors import Unauthorized
 import os
 import wget
 
-BEARER_TOKEN=os.environ.get('BEARER_TOKEN') or ""
-API_KEY=os.environ.get('API_KEY') or ""
-API_KEY_SECRET=os.environ.get('API_KEY_SECRET') or ""
-ACCESS_TOKEN=os.environ.get('ACCESS_TOKEN') or ""
-ACCESS_TOKEN_SECRET=os.environ.get('ACCESS_TOKEN_SECRET') or "" 
-
-def fetch_data():
+def fetch_data(client):
     ''' Returns an array of dicts with tweets, username, author_id, tweet_id, media_keys, low_res_image_path saved in a folder tmp_img/low_res
     [{'tweet': '', 'username': '', 'author_id': int, 'tweet_id': number, 'media_keys': [''], 'low_res_img': ['']}]
     '''
     tweets = []
     
     try:
-        client = tweepy.Client(bearer_token=BEARER_TOKEN, consumer_key=API_KEY, 
-                            consumer_secret=API_KEY_SECRET, access_token=ACCESS_TOKEN, 
-                            access_token_secret=ACCESS_TOKEN_SECRET)
         schwyte = client.get_me()
         user_id = schwyte.data.id
         public_tweets = client.get_users_mentions(user_id,expansions='attachments.media_keys',media_fields=["url","preview_image_url"])
@@ -71,12 +62,9 @@ def fetch_data():
     return tweets
 
     
-def post_result(tweet):
+def post_result(tweet,client):
     #[{'tweet': '', 'username': '', 'author_id': int, 'tweet_id': number, 'media_keys': [''], 'low_res_img': ['']}]
     try:
-        client = tweepy.Client(bearer_token=BEARER_TOKEN, consumer_key=API_KEY, 
-                            consumer_secret=API_KEY_SECRET, access_token=ACCESS_TOKEN, 
-                            access_token_secret=ACCESS_TOKEN_SECRET)
         tweet_text = f"Hey @{tweet['username']}Here's your super resolved image!"
         media_IDs = upload_images(tweet['low_res_imgs'])
         res = client.create_tweet(text=tweet_text,media_ids=[media_IDs])
@@ -87,10 +75,8 @@ def post_result(tweet):
         print(f"Error occured: {e}")
         quit()
 
-def upload_images(imgs):
-    auth = tweepy.OAuthHandler(API_KEY, API_KEY_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-    api = tweepy.API(auth)
+def upload_images(imgs,api):
+    
     media_ids = []
     hi_res_dir = "tmp/hi_res/"
     for image in imgs:
